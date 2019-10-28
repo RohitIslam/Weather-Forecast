@@ -8,15 +8,24 @@ class WeatherService {
       LocationService location = LocationService();
       await location.getCurrentLocation();
 
-      NetworkService networkHelper = NetworkService(
+      NetworkService networkService = NetworkService(
         '$kOpenWeatherMapUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$kApiKey&units=metric',
       );
 
-      var weatherData = await networkHelper.getData();
+      var weatherData = await networkService.getData();
       return weatherData;
     } catch (err) {
       print("Error (getLocationWeather): ${err.message}");
     }
+  }
+
+  Future<dynamic> getCityWeather(String cityName) async {
+    NetworkService networkService = NetworkService(
+      '$kOpenWeatherMapUrl?q=$cityName&appid=$kApiKey&units=metric',
+    );
+
+    var weatherData = await networkService.getData();
+    return weatherData;
   }
 
   String getWeatherIcon(int condition) {

@@ -22,6 +22,7 @@ class _LocationScreenState extends State<LocationScreen> {
   String weatherIcon;
   String weatherMessage;
   String cityName;
+  bool doSearch = false;
 
   @override
   void initState() {
@@ -77,12 +78,45 @@ class _LocationScreenState extends State<LocationScreen> {
                     cityName,
                     style: kCityTextStyle,
                   ),
-                  Icon(
-                    Icons.search,
-                    size: kTopIconSize,
+                  TopIconButton(
+                    icon: Icons.search,
+                    onPress: () {
+                      setState(() {
+                        doSearch = !doSearch;
+                      });
+                    },
                   ),
                 ],
               ),
+              doSearch
+                  ? Container(
+                      padding: EdgeInsets.all(20.0),
+                      child: TextField(
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          icon: Icon(
+                            Icons.location_city,
+                            color: Colors.white,
+                          ),
+                          hintText: "Enter City Name",
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          cityName = value;
+                        },
+                      ),
+                    )
+                  : Container(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
