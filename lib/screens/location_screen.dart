@@ -22,6 +22,7 @@ class _LocationScreenState extends State<LocationScreen> {
   String weatherIcon;
   String weatherMessage;
   String cityName;
+  String typedCityName;
   bool doSearch = false;
 
   @override
@@ -90,32 +91,52 @@ class _LocationScreenState extends State<LocationScreen> {
                 ],
               ),
               doSearch
-                  ? Container(
-                      padding: EdgeInsets.all(20.0),
-                      child: TextField(
-                        style: TextStyle(
-                          color: Colors.black,
+                  ? Column(
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.all(20.0),
+                          child: TextField(
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              icon: Icon(
+                                Icons.location_city,
+                                color: Colors.white,
+                              ),
+                              hintText: "Enter City Name",
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              typedCityName = value;
+                            },
+                          ),
                         ),
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          icon: Icon(
-                            Icons.location_city,
-                            color: Colors.white,
+                        FlatButton(
+                          onPressed: () async {
+                            if (typedCityName != null) {
+                              var weatherData = await weatherService
+                                  .getCityWeather(typedCityName);
+                              updateUI(weatherData);
+                            }
+                            setState(() {
+                              doSearch = false;
+                            });
+                          },
+                          child: Text(
+                            'Get Weather',
+                            style: kButtonTextStyle,
                           ),
-                          hintText: "Enter City Name",
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                        onChanged: (value) {
-                          cityName = value;
-                        },
-                      ),
+                        )
+                      ],
                     )
                   : Container(),
               Column(

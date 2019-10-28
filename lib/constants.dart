@@ -22,8 +22,8 @@ const kMessageTextStyle = TextStyle(
 );
 
 const kButtonTextStyle = TextStyle(
-  fontSize: 30.0,
   fontFamily: 'Spartan MB',
+  fontSize: 30.0,
 );
 
 const kConditionTextStyle = TextStyle(
