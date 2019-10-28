@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../services/weather_service.dart';
 
@@ -62,15 +63,17 @@ class _LocationScreenState extends State<LocationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    'Current Location Icon',
+                  Icon(
+                    Icons.my_location,
+                    size: 26,
                   ),
                   Text(
                     cityName,
                     style: kCityTextStyle,
                   ),
-                  Text(
-                    'Search City Icon',
+                  Icon(
+                    Icons.search,
+                    size: 26,
                   ),
                 ],
               ),
@@ -78,13 +81,32 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Weather Icon',
+                    weatherIcon,
+                    style: kConditionTextStyle,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: <Widget>[
+                        Text(
+                          '$temperature°',
+                          style: kTempTextStyle,
+                        ),
+                        Text(
+                          "C",
+                          style: TextStyle(
+                            fontSize: 40.0,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Text(
-                    'Temperature',
-                  ),
-                  Text(
-                    'Current Date',
+                    '${DateFormat.MMMMEEEEd().format(DateTime.now())}',
+                    style: kDateTextStyle,
                   ),
                 ],
               ),

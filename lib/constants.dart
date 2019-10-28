@@ -7,13 +7,11 @@ const kBackgroundColor = Color(0xFF550E48);
 const kBackgroundColorLight = Color(0xFF5A154C);
 
 const kTempTextStyle = TextStyle(
-  fontFamily: 'Spartan MB',
-  fontSize: 100.0,
+  fontSize: 60.0,
 );
 
 const kCityTextStyle = TextStyle(
-  fontFamily: 'Spartan MB',
-  fontSize: 26.0,
+  fontSize: 30.0,
 );
 
 const kMessageTextStyle = TextStyle(
@@ -27,5 +25,10 @@ const kButtonTextStyle = TextStyle(
 );
 
 const kConditionTextStyle = TextStyle(
-  fontSize: 100.0,
+  fontSize: 60.0,
+);
+
+const kDateTextStyle = TextStyle(
+  fontFamily: 'Quicksand',
+  fontSize: 26.0,
 );
