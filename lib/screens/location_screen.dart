@@ -18,6 +18,7 @@ class _LocationScreenState extends State<LocationScreen> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: Container(
+        margin: const EdgeInsets.all(10),
         constraints: BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
@@ -38,6 +39,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 ],
               ),
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     'Weather Icon',
