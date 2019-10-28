@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 
 import '../services/weather_service.dart';
 
+import '../widgets/top_icon_button.dart';
+
 import '../constants.dart';
 
 class LocationScreen extends StatefulWidget {
@@ -63,9 +65,13 @@ class _LocationScreenState extends State<LocationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Icon(
-                    Icons.my_location,
-                    size: 26,
+                  TopIconButton(
+                    icon: Icons.my_location,
+                    onPress: () async {
+                      var weatherData =
+                          await WeatherService().getLocationWeather();
+                      updateUI(weatherData);
+                    },
                   ),
                   Text(
                     cityName,
@@ -73,7 +79,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   Icon(
                     Icons.search,
-                    size: 26,
+                    size: kTopIconSize,
                   ),
                 ],
               ),

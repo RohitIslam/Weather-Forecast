@@ -6,6 +6,8 @@ const kOpenWeatherMapUrl = 'https://api.openweathermap.org/data/2.5/weather';
 const kBackgroundColor = Color(0xFF550E48);
 const kBackgroundColorLight = Color(0xFF5A154C);
 
+const kTopIconSize = 26.0;
+
 const kTempTextStyle = TextStyle(
   fontSize: 60.0,
 );
