@@ -13,6 +13,41 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  WeatherService weatherService = WeatherService();
+
+  int temperature;
+  String weatherIcon;
+  String weatherMessage;
+  String cityName;
+
+  @override
+  void initState() {
+    updateUI(widget.weatherData);
+    super.initState();
+  }
+
+  void updateUI(dynamic weatherData) {
+    setState(() {
+      if (weatherData == null) {
+        temperature = 0;
+        weatherIcon = 'Error';
+        weatherMessage = 'Error, unable to get weather data';
+        cityName = '';
+        return;
+      }
+      dynamic temp = weatherData['main']['temp'];
+
+      temperature = temp.toInt();
+      var message = weatherService.getMessage(temperature);
+
+      var conditionNumber = weatherData['weather'][0]['id'];
+      weatherIcon = weatherService.getWeatherIcon(conditionNumber);
+
+      cityName = weatherData['name'];
+      weatherMessage = "$message in $cityName!";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +66,8 @@ class _LocationScreenState extends State<LocationScreen> {
                     'Current Location Icon',
                   ),
                   Text(
-                    'City Name',
+                    cityName,
+                    style: kCityTextStyle,
                   ),
                   Text(
                     'Search City Icon',
@@ -54,7 +90,9 @@ class _LocationScreenState extends State<LocationScreen> {
               ),
               Container(
                 child: Text(
-                  'Weather Message',
+                  weatherMessage,
+                  textAlign: TextAlign.center,
+                  style: kMessageTextStyle,
                 ),
               )
             ],
