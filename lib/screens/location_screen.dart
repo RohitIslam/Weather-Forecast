@@ -55,6 +55,7 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: kBackgroundColor,
       body: Container(
         margin: const EdgeInsets.all(10),
