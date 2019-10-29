@@ -31,13 +31,6 @@ class _LocationScreenState extends State<LocationScreen> {
     super.initState();
   }
 
-  void _onSubmitCityName() async {
-    if (typedCityName != null) {
-      var weatherData = await weatherService.getCityWeather(typedCityName);
-      updateUI(weatherData);
-    }
-  }
-
   void updateUI(dynamic weatherData) {
     setState(() {
       if (weatherData == null) {
@@ -61,6 +54,21 @@ class _LocationScreenState extends State<LocationScreen> {
     });
   }
 
+  void _getCurrentLocationWeather() async {
+    var weatherData = await WeatherService().getLocationWeather();
+    updateUI(weatherData);
+  }
+
+  void _onSubmitCityName() async {
+    if (typedCityName != null) {
+      var weatherData = await weatherService.getCityWeather(typedCityName);
+      updateUI(weatherData);
+      typedCityName = null;
+    } else {
+      _getCurrentLocationWeather();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,11 +86,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 children: <Widget>[
                   TopIconButton(
                     icon: Icons.my_location,
-                    onPress: () async {
-                      var weatherData =
-                          await WeatherService().getLocationWeather();
-                      updateUI(weatherData);
-                    },
+                    onPress: _getCurrentLocationWeather,
                   ),
                   Text(
                     cityName,
@@ -130,11 +134,11 @@ class _LocationScreenState extends State<LocationScreen> {
                           ),
                         ),
                         FlatButton(
-                          onPressed: _onSubmitCityName,
                           child: Text(
                             'Get Weather',
                             style: kButtonTextStyle,
                           ),
+                          onPressed: _onSubmitCityName,
                         )
                       ],
                     )
