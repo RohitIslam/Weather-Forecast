@@ -31,13 +31,20 @@ class _LocationScreenState extends State<LocationScreen> {
     super.initState();
   }
 
+  void _onSubmitCityName() async {
+    if (typedCityName != null) {
+      var weatherData = await weatherService.getCityWeather(typedCityName);
+      updateUI(weatherData);
+    }
+  }
+
   void updateUI(dynamic weatherData) {
     setState(() {
       if (weatherData == null) {
         temperature = 0;
         weatherIcon = 'Error';
         weatherMessage = 'Error, unable to get weather data';
-        cityName = '';
+        cityName = 'Invalid';
         return;
       }
       dynamic temp = weatherData['main']['temp'];
@@ -50,6 +57,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
       cityName = weatherData['name'];
       weatherMessage = "$message in $cityName!";
+      doSearch = false;
     });
   }
 
@@ -108,7 +116,7 @@ class _LocationScreenState extends State<LocationScreen> {
                               ),
                               hintText: "Enter City Name",
                               hintStyle: TextStyle(
-                                color: Colors.grey,
+                                color: Colors.blueGrey.shade900,
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -118,19 +126,11 @@ class _LocationScreenState extends State<LocationScreen> {
                             onChanged: (value) {
                               typedCityName = value;
                             },
+                            onSubmitted: (_) => _onSubmitCityName(),
                           ),
                         ),
                         FlatButton(
-                          onPressed: () async {
-                            if (typedCityName != null) {
-                              var weatherData = await weatherService
-                                  .getCityWeather(typedCityName);
-                              updateUI(weatherData);
-                            }
-                            setState(() {
-                              doSearch = false;
-                            });
-                          },
+                          onPressed: _onSubmitCityName,
                           child: Text(
                             'Get Weather',
                             style: kButtonTextStyle,
