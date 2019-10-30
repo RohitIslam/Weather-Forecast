@@ -1,6 +1,6 @@
 import '../services/location_service.dart';
 import '../services/network_sercive.dart';
-import '../constants.dart';
+import '../secrets.dart';
 
 class WeatherService {
   Future<dynamic> getLocationWeather() async {
@@ -9,7 +9,7 @@ class WeatherService {
       await location.getCurrentLocation();
 
       NetworkService networkService = NetworkService(
-        '$kOpenWeatherMapUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$kApiKey&units=metric',
+        '$sOpenWeatherMapUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$sApiKey&units=metric',
       );
 
       var weatherData = await networkService.getData();
@@ -21,7 +21,7 @@ class WeatherService {
 
   Future<dynamic> getCityWeather(String cityName) async {
     NetworkService networkService = NetworkService(
-      '$kOpenWeatherMapUrl?q=$cityName&appid=$kApiKey&units=metric',
+      '$sOpenWeatherMapUrl?q=$cityName&appid=$sApiKey&units=metric',
     );
 
     var weatherData = await networkService.getData();
