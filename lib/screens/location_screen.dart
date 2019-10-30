@@ -17,15 +17,15 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  WeatherService weatherService = WeatherService();
+  WeatherService _weatherService = WeatherService();
 
-  int temperature;
-  String weatherIcon;
-  String weatherMessage;
-  String cityName;
-  String typedCityName;
-  bool doSearch = false;
-  bool showSpinnier = false;
+  int _temperature;
+  String _weatherIcon;
+  String _weatherMessage;
+  String _cityName;
+  String _typedCityName;
+  bool _doSearch = false;
+  bool _showSpinnier = false;
 
   @override
   void initState() {
@@ -36,51 +36,58 @@ class _LocationScreenState extends State<LocationScreen> {
   void updateUI(dynamic weatherData) {
     setState(() {
       if (weatherData == null) {
-        temperature = 0;
-        weatherIcon = 'Error';
-        weatherMessage = 'Error, unable to get weather data';
-        cityName = 'Invalid';
+        _temperature = 0;
+        _weatherIcon = 'Error';
+        _weatherMessage = 'Error, unable to get weather data';
+        _cityName = 'Invalid';
         return;
       }
       dynamic temp = weatherData['main']['temp'];
 
-      temperature = temp.toInt();
-      var message = weatherService.getMessage(temperature);
+      _temperature = temp.toInt();
+      var message = _weatherService.getMessage(_temperature);
 
       var conditionNumber = weatherData['weather'][0]['id'];
-      weatherIcon = weatherService.getWeatherIcon(conditionNumber);
+      _weatherIcon = _weatherService.getWeatherIcon(conditionNumber);
 
-      cityName = weatherData['name'];
-      weatherMessage = "$message in $cityName!";
-      doSearch = false;
+      _cityName = weatherData['name'];
+      _weatherMessage = "$message in $_cityName!";
+      _doSearch = false;
     });
   }
 
   void _getCurrentLocationWeather() async {
     setState(() {
-      showSpinnier = true;
+      _showSpinnier = true;
     });
     var weatherData = await WeatherService().getLocationWeather();
     setState(() {
-      showSpinnier = false;
+      _showSpinnier = false;
     });
     updateUI(weatherData);
   }
 
   void _onSubmitCityName() async {
-    if (typedCityName != null) {
+    if (_typedCityName != null) {
       setState(() {
-        showSpinnier = true;
+        _showSpinnier = true;
       });
-      var weatherData = await weatherService.getCityWeather(typedCityName);
+      var weatherData = await _weatherService.getCityWeather(_typedCityName);
       setState(() {
-        showSpinnier = false;
+        _showSpinnier = false;
       });
       updateUI(weatherData);
-      typedCityName = null;
+      _typedCityName = null;
     } else {
       _getCurrentLocationWeather();
     }
+  }
+
+  @override
+  void dispose() {
+    _showSpinnier = false;
+    _doSearch = false;
+    super.dispose();
   }
 
   @override
@@ -89,7 +96,7 @@ class _LocationScreenState extends State<LocationScreen> {
       resizeToAvoidBottomPadding: false,
       backgroundColor: kBackgroundColor,
       body: ModalProgressHUD(
-        inAsyncCall: showSpinnier,
+        inAsyncCall: _showSpinnier,
         child: Container(
           margin: const EdgeInsets.all(10),
           constraints: BoxConstraints.expand(),
@@ -105,20 +112,20 @@ class _LocationScreenState extends State<LocationScreen> {
                       onPress: _getCurrentLocationWeather,
                     ),
                     Text(
-                      cityName,
+                      _cityName,
                       style: kCityTextStyle,
                     ),
                     TopIconButton(
                       icon: Icons.search,
                       onPress: () {
                         setState(() {
-                          doSearch = !doSearch;
+                          _doSearch = !_doSearch;
                         });
                       },
                     ),
                   ],
                 ),
-                doSearch
+                _doSearch
                     ? Column(
                         children: <Widget>[
                           Container(
@@ -144,7 +151,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                 ),
                               ),
                               onChanged: (value) {
-                                typedCityName = value;
+                                _typedCityName = value;
                               },
                               onSubmitted: (_) => _onSubmitCityName(),
                             ),
@@ -163,7 +170,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      weatherIcon,
+                      _weatherIcon,
                       style: kConditionTextStyle,
                     ),
                     Container(
@@ -174,7 +181,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         textBaseline: TextBaseline.alphabetic,
                         children: <Widget>[
                           Text(
-                            '$temperature°',
+                            '$_temperature°',
                             style: kTempTextStyle,
                           ),
                           Text(
@@ -194,7 +201,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 ),
                 Container(
                   child: Text(
-                    weatherMessage,
+                    _weatherMessage,
                     textAlign: TextAlign.center,
                     style: kMessageTextStyle,
                   ),
