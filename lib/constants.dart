@@ -32,3 +32,8 @@ const kDateTextStyle = TextStyle(
   fontFamily: 'Quicksand',
   fontSize: 26.0,
 );
+
+const kSkyConditionTextStyle = TextStyle(
+  fontFamily: 'Quicksand',
+  fontSize: 20.0,
+);

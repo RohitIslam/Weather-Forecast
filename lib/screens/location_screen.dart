@@ -22,6 +22,7 @@ class _LocationScreenState extends State<LocationScreen> {
   int _temperature;
   String _weatherIcon;
   String _weatherMessage;
+  String _skyCondition;
   String _cityName;
   String _typedCityName;
   bool _doSearch = false;
@@ -38,6 +39,7 @@ class _LocationScreenState extends State<LocationScreen> {
       if (weatherData == null) {
         _temperature = 0;
         _weatherIcon = 'Error';
+        _skyCondition = 'Error';
         _weatherMessage = 'Error, unable to get weather data';
         _cityName = 'Invalid';
         return;
@@ -51,6 +53,7 @@ class _LocationScreenState extends State<LocationScreen> {
       _weatherIcon = _weatherService.getWeatherIcon(conditionNumber);
 
       _cityName = weatherData['name'];
+      _skyCondition = weatherData['weather'][0]['main'];
       _weatherMessage = "$message in $_cityName!";
       _doSearch = false;
     });
@@ -172,6 +175,10 @@ class _LocationScreenState extends State<LocationScreen> {
                     Text(
                       _weatherIcon,
                       style: kConditionTextStyle,
+                    ),
+                    Text(
+                      _skyCondition,
+                      style: kSkyConditionTextStyle,
                     ),
                     Container(
                       margin: const EdgeInsets.all(10),
