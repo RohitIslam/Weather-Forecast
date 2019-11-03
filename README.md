@@ -1,7 +1,3 @@
 # weather_forecast
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
+Simple weather forecast app using Flutter
