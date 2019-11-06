@@ -206,11 +206,13 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ],
                 ),
-                Container(
-                  child: Text(
-                    _weatherMessage,
-                    textAlign: TextAlign.center,
-                    style: kMessageTextStyle,
+                Flexible(
+                  child: Container(
+                    child: Text(
+                      _weatherMessage,
+                      textAlign: TextAlign.center,
+                      style: kMessageTextStyle,
+                    ),
                   ),
                 )
               ],
